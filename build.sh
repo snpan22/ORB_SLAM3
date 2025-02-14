@@ -34,7 +34,13 @@ cd ..
 
 echo "Configuring and building ORB_SLAM3 ..."
 
+# mkdir build
+# cd build
+# cmake .. -DCMAKE_BUILD_TYPE=Release
+# make -j4
+
 mkdir build
 cd build
-cmake .. -DCMAKE_BUILD_TYPE=Release
+# Modify this line to point to the OpenCV directory where OpenCVConfig.cmake is located
+cmake .. -DCMAKE_BUILD_TYPE=Release -DOpenCV_DIR=/home/brg/Dev/opencv/build
 make -j4

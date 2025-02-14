@@ -20,24 +20,58 @@ File.version: "1.0"
 Camera.type: "PinHole"
 
 # Camera calibration and distortion parameters (OpenCV) 
-Camera1.fx: 458.654
-Camera1.fy: 457.296
-Camera1.cx: 367.215
-Camera1.cy: 248.375
+# Camera1.fx: 458.654
+# Camera1.fy: 457.296
+# Camera1.cx: 367.215
+# Camera1.cy: 248.375
 
-Camera1.k1: -0.28340811
-Camera1.k2: 0.07395907
-Camera1.p1: 0.00019359
-Camera1.p2: 1.76187114e-05
+# Camera1.k1: -0.28340811
+# Camera1.k2: 0.07395907
+# Camera1.p1: 0.00019359
+# Camera1.p2: 1.76187114e-05
 
-Camera.width: 752
-Camera.height: 480
+# Camera.width: 752
+# Camera.height: 480
 
+# Camera.newWidth: 600
+# Camera.newHeight: 350
+
+# # Camera frames per second 
+# Camera.fps: 20
+
+# # Color order of the images (0: BGR, 1: RGB. It is ignored if images are grayscale)
+# Camera.RGB: 1
+
+# cam0:
+#   cam_overlaps: []
+#   camera_model: pinhole
+#   distortion_coeffs: [0.07809695842091514, -0.14615549029696379, -0.0012996168394458663, -0.0015239186911521914]
+#   distortion_model: radtan
+#   intrinsics: [916.5015082697165, 915.0838428431339, 641.8111584667326, 356.47367070154854]
+#   resolution: [1280, 720]
+#   rostopic: /camera/color/image_raw
+
+Camera1.fx: 916.5015082697165
+Camera1.fy: 915.0838428431339
+Camera1.cx: 641.8111584667326
+Camera1.cy: 356.47367070154854
+
+Camera1.k1: 0.07809695842091514
+Camera1.k2:  -0.14615549029696379
+Camera1.p1: -0.0012996168394458663
+Camera1.p2: -0.0015239186911521914
+
+Camera.width: 1280
+Camera.height: 720
+
+#maintain aspect ratio. scale by width
+# sf = newwidth / width = 600 / 1280 = 0.46875
+# newHeight = height * scalefactor = 337.5 = 338
 Camera.newWidth: 600
-Camera.newHeight: 350
+Camera.newHeight: 338
 
 # Camera frames per second 
-Camera.fps: 20
+Camera.fps: 7.8
 
 # Color order of the images (0: BGR, 1: RGB. It is ignored if images are grayscale)
 Camera.RGB: 1
