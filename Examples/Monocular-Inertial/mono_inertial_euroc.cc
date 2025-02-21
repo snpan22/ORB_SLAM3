@@ -23,6 +23,7 @@
 #include<chrono>
 #include <ctime>
 #include <sstream>
+#include <string>
 
 #include<opencv2/core/core.hpp>
 
@@ -77,13 +78,22 @@ int main(int argc, char *argv[])
     int tot_images = 0;
     for (seq = 0; seq<num_seq; seq++)
     {
+        cout << "Enter name of camera dataset"<< endl;
+        string cam_dataset_name;
+        getline(cin, cam_dataset_name);
+        cout << "Enter name of imu dataset (.csv)"<< endl;
+        string imu_dataset_name;
+        getline(cin, imu_dataset_name);
+        cout <<"reached"<<endl;
         cout << "Loading images for sequence " << seq << "...";
 
         string pathSeq(argv[(2*seq) + 3]);
         string pathTimeStamps(argv[(2*seq) + 4]);
 
-        string pathCam0 = pathSeq + "/mav0/cam0/data";
-        string pathImu = pathSeq + "/mav0/imu0/data.csv";
+        // string pathCam0 = pathSeq + "/mav0/cam0/data";
+        // string pathImu = pathSeq + "/mav0/imu0/data.csv";
+        string pathCam0 = pathSeq + "/imgs_mono/" + cam_dataset_name;
+        string pathImu = pathSeq + "/imu_rs/" + imu_dataset_name;
 
         LoadImages(pathCam0, pathTimeStamps, vstrImageFilenames[seq], vTimestampsCam[seq]);
         cout << "LOADED!" << endl;
@@ -249,29 +259,68 @@ int main(int argc, char *argv[])
     return 0;
 }
 
+// void LoadImages(const string &strImagePath, const string &strPathTimes,
+//                 vector<string> &vstrImages, vector<double> &vTimeStamps)
+// {
+//     ifstream fTimes;
+//     fTimes.open(strPathTimes.c_str());
+//     vTimeStamps.reserve(5000);
+//     vstrImages.reserve(5000);
+//     while(!fTimes.eof())
+//     {
+//         string s;
+//         getline(fTimes,s);
+//         if(!s.empty())
+//         {
+//             stringstream ss;
+//             ss << s;
+//             vstrImages.push_back(strImagePath + "/" + ss.str() + ".png");
+//             double t;
+//             ss >> t;
+//             vTimeStamps.push_back(t/1e9);
+
+//         }
+//     }
+// }
+std::string trim(const std::string &str) {
+    auto start = str.find_first_not_of(" \t\r\n");
+    auto end = str.find_last_not_of(" \t\r\n");
+    return (start == std::string::npos || end == std::string::npos) ? "" : str.substr(start, end - start + 1);
+}
 void LoadImages(const string &strImagePath, const string &strPathTimes,
-                vector<string> &vstrImages, vector<double> &vTimeStamps)
+    vector<string> &vstrImages, vector<double> &vTimeStamps)
 {
     ifstream fTimes;
     fTimes.open(strPathTimes.c_str());
     vTimeStamps.reserve(5000);
     vstrImages.reserve(5000);
-    while(!fTimes.eof())
-    {
-        string s;
-        getline(fTimes,s);
-        if(!s.empty())
-        {
-            stringstream ss;
-            ss << s;
-            vstrImages.push_back(strImagePath + "/" + ss.str() + ".png");
-            double t;
-            ss >> t;
-            vTimeStamps.push_back(t/1e9);
 
+    while (!fTimes.eof()) {
+        string s;
+        getline(fTimes, s);
+
+        if (!s.empty()) {
+        // Trim any leading or trailing whitespace from the string
+            s = trim(s);  
+
+            // After trimming, you should have a clean timestamp/filename without extra spaces
+            cout << "Trimmed line: " << s << endl;  // For debugging
+
+            string fullPath = strImagePath + "/" + s + ".png";  // s should now be clean
+
+            cout << "Full image path: " << fullPath << endl;
+
+            vstrImages.push_back(fullPath);  // Push the cleaned-up path
+
+            // Assuming the timestamp is part of the filename and you want to extract it
+            stringstream ss(s);
+            double t;
+            ss >> t;  // Extract the timestamp
+            vTimeStamps.push_back(t * 1e-9);  // Convert timestamp to seconds
         }
-    }
+    }   
 }
+
 
 void LoadIMU(const string &strImuPath, vector<double> &vTimeStamps, vector<cv::Point3f> &vAcc, vector<cv::Point3f> &vGyro)
 {

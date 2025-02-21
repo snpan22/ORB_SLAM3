@@ -20,8 +20,10 @@
 #include<algorithm>
 #include<fstream>
 #include<chrono>
-
+#include <string>
 #include<opencv2/core/core.hpp>
+#include <algorithm> // for std::find_if and std::isspace
+#include <cctype>    // for std::isspace
 
 #include<System.h>
 
@@ -61,10 +63,13 @@ int main(int argc, char **argv)
     int tot_images = 0;
     for (seq = 0; seq<num_seq; seq++)
     {
+        cout << "Enter name of dataset"<< endl;
+        string dataset_name;
+        getline(cin, dataset_name);
         cout << "Loading images for sequence " << seq << "...";
         //          location of pngs                             location of timestamps
-        // LoadImages(string(argv[(2*seq)+3]) + "/mav0/cam0/data", string(argv[(2*seq)+4]), vstrImageFilenames[seq], vTimestampsCam[seq]);
-        LoadImages(string(argv[(2*seq)+3]) + "/mav0/cam0/data", string(argv[(2*seq)+4]), vstrImageFilenames[seq], vTimestampsCam[seq]);
+        // LoadImages(string(argv[(2*seq)+3]) + "/mav0/cam0/loc000", string(argv[(2*seq)+4]), vstrImageFilenames[seq], vTimestampsCam[seq]);
+        LoadImages(string(argv[(2*seq)+3]) + "/" + dataset_name, string(argv[(2*seq)+4]), vstrImageFilenames[seq], vTimestampsCam[seq]);
 
         cout << "LOADED!" << endl;
 
@@ -99,9 +104,9 @@ int main(int argc, char **argv)
         {
 
             // Read image from file
-            im = cv::imread(vstrImageFilenames[seq][ni],cv::IMREAD_UNCHANGED); //,CV_LOAD_IMAGE_UNCHANGED);
+            im = cv::imread(vstrImageFilenames[seq][ni],cv::IMREAD_UNCHANGED);//,CV_LOAD_IMAGE_UNCHANGED);
             double tframe = vTimestampsCam[seq][ni];
-
+            cout << vTimestampsCam[seq][ni] <<endl;
             if(im.empty())
             {
                 cerr << endl << "Failed to load image at: "
@@ -206,26 +211,79 @@ int main(int argc, char **argv)
     return 0;
 }
 
+// void LoadImages(const string &strImagePath, const string &strPathTimes,
+//                 vector<string> &vstrImages, vector<double> &vTimeStamps)
+// {
+//     ifstream fTimes;
+//     fTimes.open(strPathTimes.c_str());
+//     cout << "opening folder:" <<
+//     vTimeStamps.reserve(5000);
+//     vstrImages.reserve(5000);
+//     while(!fTimes.eof())
+//     {
+//         string s;
+//         getline(fTimes,s);
+//         if(!s.empty())
+//         {
+//             cout << "folder:" <<
+//             stringstream ss;
+//             // string ss;
+//             ss << s;
+//             cout << "strImagePath: " << strImagePath << endl;
+//             cout << "ss.str(): " << ss.str() << endl;
+//             // if (strImagePath.back() == '/') {
+//             //     strImagePath.pop_back();
+//             // }
+//             // string fullPath = strImagePath + "/" + ss.str() + ".png";
+           
+//             string filename = ss.str()+".png";
+//             cout << "Full image path: " << strImagePath + "/" + filename << endl;
+//             vstrImages.push_back(strImagePath + "/" + filename);
+//             // cout << strImagePath + "/" + ss.str() + ".png"<<endl;
+//             double t;
+//             ss >> t;
+//             vTimeStamps.push_back(t*1e-9);
+
+//         }
+//     }
+// }
+
+std::string trim(const std::string &str) {
+    auto start = str.find_first_not_of(" \t\r\n");
+    auto end = str.find_last_not_of(" \t\r\n");
+    return (start == std::string::npos || end == std::string::npos) ? "" : str.substr(start, end - start + 1);
+}
+
 void LoadImages(const string &strImagePath, const string &strPathTimes,
-                vector<string> &vstrImages, vector<double> &vTimeStamps)
+    vector<string> &vstrImages, vector<double> &vTimeStamps)
 {
     ifstream fTimes;
     fTimes.open(strPathTimes.c_str());
     vTimeStamps.reserve(5000);
     vstrImages.reserve(5000);
-    while(!fTimes.eof())
-    {
-        string s;
-        getline(fTimes,s);
-        if(!s.empty())
-        {
-            stringstream ss;
-            ss << s;
-            vstrImages.push_back(strImagePath + "/" + ss.str() + ".png");
-            double t;
-            ss >> t;
-            vTimeStamps.push_back(t*1e-9);
 
+    while (!fTimes.eof()) {
+        string s;
+        getline(fTimes, s);
+
+        if (!s.empty()) {
+        // Trim any leading or trailing whitespace from the string
+            s = trim(s);  
+
+            // After trimming, you should have a clean timestamp/filename without extra spaces
+            // cout << "Trimmed line: " << s << endl;  // For debugging
+
+            string fullPath = strImagePath + "/" + s + ".png";  // s should now be clean
+
+            // cout << "Full image path: " << fullPath << endl;
+
+            vstrImages.push_back(fullPath);  // Push the cleaned-up path
+
+            // Assuming the timestamp is part of the filename and you want to extract it
+            stringstream ss(s);
+            double t;
+            ss >> t;  // Extract the timestamp
+            vTimeStamps.push_back(t * 1e-9);  // Convert timestamp to seconds
         }
-    }
+    }   
 }

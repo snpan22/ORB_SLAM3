@@ -19,7 +19,7 @@ File.version: "1.0"
 
 Camera.type: "PinHole"
 
-# Camera calibration and distortion parameters (OpenCV) 
+# # Camera calibration and distortion parameters (OpenCV) 
 # Camera1.fx: 458.654
 # Camera1.fy: 457.296
 # Camera1.cx: 367.215
@@ -71,14 +71,14 @@ Camera.newWidth: 600
 Camera.newHeight: 338
 
 # Camera frames per second 
-Camera.fps: 7.8
+Camera.fps: 8
 
 # Color order of the images (0: BGR, 1: RGB. It is ignored if images are grayscale)
 Camera.RGB: 1
 
-#--------------------------------------------------------------------------------------------
-# ORB Parameters
-#--------------------------------------------------------------------------------------------
+# #--------------------------------------------------------------------------------------------
+# # ORB Parameters
+# #--------------------------------------------------------------------------------------------
 
 # ORB Extractor: Number of features per image
 ORBextractor.nFeatures: 1000
