@@ -73,8 +73,10 @@ ImuCamPose::ImuCamPose(KeyFrame *pKF):its(0)
 ImuCamPose::ImuCamPose(Frame *pF):its(0)
 {
     // Load IMU pose
+    // cout << "Loading IMU Pose inside ImuCamPose"<<endl;
     twb = pF->GetImuPosition().cast<double>();
     Rwb = pF->GetImuRotation().cast<double>();
+    // cout << "IMU Pose loaded ImuCamPose"<<endl;
 
     // Load camera poses
     int num_cams;
@@ -720,6 +722,7 @@ void EdgeInertialGS::linearizeOplus()
 EdgePriorPoseImu::EdgePriorPoseImu(ConstraintPoseImu *c)
 {
     resize(4);
+    // cout<<c->Rwb<<", "<<c->twb<<", "<<c->vwb<<", "<<c->bg<<", "<<c->ba<<", "<<endl;
     Rwb = c->Rwb;
     twb = c->twb;
     vwb = c->vwb;

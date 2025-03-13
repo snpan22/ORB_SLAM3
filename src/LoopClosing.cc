@@ -559,7 +559,10 @@ bool LoopClosing::DetectAndReffineSim3FromLastKF(KeyFrame* pCurrentKF, KeyFrame*
 
         if(numOptMatches > nProjOptMatches)
         {
-            g2o::Sim3 gScw_estimation(gScw.rotation(), gScw.translation(),1.0);
+            // g2o::Sim3 gScw_estimation(gScw.rotation(), gScw.translation(),1.0);
+            Sophus::SE3d mTmw = pMatchedKF->GetPose().cast<double>();
+            g2o::Sim3 gSmw(mTmw.unit_quaternion(), mTmw.translation(), 1.0);
+            g2o::Sim3 gScw_estimation = gScm*gSmw;
 
             vector<MapPoint*> vpMatchedMP;
             vpMatchedMP.resize(mpCurrentKF->GetMapPointMatches().size(), static_cast<MapPoint*>(NULL));
@@ -933,10 +936,15 @@ int LoopClosing::FindMatchesByProjection(KeyFrame* pCurrentKF, KeyFrame* pMatche
                 {
                     spCheckKFs.insert(vpKFs[j]);
                     ++nInserted;
+
+                    //new:
+                    vpCovKFm.push_back(vpKFs[j]);
                 }
                 ++j;
             }
-            vpCovKFm.insert(vpCovKFm.end(), vpKFs.begin(), vpKFs.end());
+            // vpCovKFm.insert(vpCovKFm.end(), vpKFs.begin(), vpKFs.end());
+            if(nInserted+nInitialCov<nNumCovisibles)
+                break;
         }
     }
     set<MapPoint*> spMapPoints;

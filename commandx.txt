@@ -1,3 +1,30 @@
 ./Examples/Monocular-Inertial/mono_inertial_euroc Vocabulary/ORBvoc.txt ./Examples/Monocular-Inertial/EuRoC.yaml
 
 ./Examples/Monocular-Inertial/mono_inertial_euroc ./Vocabulary/ORBvoc.txt ./Examples/Monocular-Inertial/EuRoC.yaml ~/Datasets/EuRoc/MH01 ./Examples/Monocular-Inertial/EuRoC_TimeStamps/MH01.txt dataset-MH01_monoi
+
+evo_traj euroc --align --correct_scale --ref ~/Dev/mif/MagPIE/dataset/Ground_Truth_Evaluation/magpie2Dataset_loc000_mocap.csv f_dataset_loc000_mono_c.txt --save_as_tum
+
+./Examples/Monocular-Inertial/mono_inertial_euroc ./Vocabulary/ORBvoc.txt ./Examples/Monocular-Inertial/EuRoC.yaml ~/Dev/mif ~/Dev/mif/timestamps_mono/csl_wlk1.txt dataset_csl_wlk_1_imu_rs
+
+ ./Examples/Monocular-Inertial/mono_inertial_euroc ./Vocabulary/ORBvoc.txt ./Examples/Monocular-Inertial/EuRoC.yaml ~/Dev/mif ~/Dev/mif/timestamps_mono/csl_wlk4.txt dataset_csl_wlk_4_imu_rs
+ 
+gdb --args  ./Examples/Monocular-Inertial/mono_inertial_euroc ./Vocabulary/ORBvoc.txt ./Examples/Monocular-Inertial/EuRoC.yaml ~/Dev/mif ~/Dev/mif/timestamps_mono/talbot_ugv2.txt dataset_talbot_ugv2_imuv
+  
+  ./Examples/Monocular-Inertial/mono_inertial_euroc ./Vocabulary/ORBvoc.txt ./Examples/Monocular-Inertial/EuRoC.yaml ~/Dev/mif ~/Dev/mif/timestamps_mono/talbot_ugv_2_tshift_imuv.txt dataset_talbot_ugv2_imuv
+  
+  
+
+  ./Examples/Monocular-Inertial/mono_inertial_euroc ./Vocabulary/ORBvoc.txt ./Examples/Monocular-Inertial/EuRoC.yaml ~/Dev/mif ~/Dev/mif/timestamps_mono/talbot_ugv2.txt dataset_talbot_ugv2_imu_rs_downsampled
+
+ ./Examples/Monocular-Inertial/mono_inertial_euroc ./Vocabulary/ORBvoc.txt ./Examples/Monocular-Inertial/EuRoC.yaml ~/Dev/mif ~/Dev/mif/timestamps_mono/talbot_ugv2.txt dataset_talbot_ugv2_imu_rs_v2
+ 
+  ./Examples/Monocular-Inertial/mono_inertial_euroc ./Vocabulary/ORBvoc.txt ./Examples/Monocular-Inertial/EuRoC.yaml ~/Dev/mif ~/Dev/mif/timestamps_mono/talbot_ugv1.txt dataset_talbot_ugv1_imu_rs
+  
+  
+  
+  
+  
+  
+  gdb --args  ./Examples/Monocular-Inertial/mono_inertial_euroc ./Vocabulary/ORBvoc.txt ./Examples/Monocular-Inertial/EuRoC.yaml ~/Dev/mif ~/Dev/mif/timestamps_mono/talbot_ugv2.txt dataset_talbot_ugv2_imuv
+  
+  evo_traj euroc --align --correct_scale --ref ~/Dev/mif/MagPIE/dataset/Talbot_UGV/magpie2Dataset_2_gt.txt talbot_ugv2_imuv.txt --plot

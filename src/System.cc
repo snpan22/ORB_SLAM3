@@ -672,6 +672,7 @@ void System::SaveTrajectoryEuRoC(const string &filename)
     vector<Map*> vpMaps = mpAtlas->GetAllMaps();
     int numMaxKFs = 0;
     Map* pBiggerMap;
+    // Map* pBiggerMap = nullptr;
     std::cout << "There are " << std::to_string(vpMaps.size()) << " maps in the atlas" << std::endl;
     for(Map* pMap :vpMaps)
     {
@@ -1412,8 +1413,12 @@ void System::SaveAtlas(int type){
         pathSaveFileName = pathSaveFileName.append(mStrSaveAtlasToFile);
         pathSaveFileName = pathSaveFileName.append(".osa");
 
-        string strVocabularyChecksum = CalculateCheckSum(mStrVocabularyFilePath,TEXT_FILE);
+        // string strVocabularyChecksum = CalculateCheckSum(mStrVocabularyFilePath,TEXT_FILE);
+
+        string strInputVocabularyChecksum = "someSampleText";
         std::size_t found = mStrVocabularyFilePath.find_last_of("/\\");
+
+        string strVocabularyChecksum = "someSampleText";
         string strVocabularyName = mStrVocabularyFilePath.substr(found+1);
 
         if(type == TEXT_FILE) // File text

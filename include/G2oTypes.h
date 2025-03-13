@@ -133,8 +133,11 @@ public:
     EIGEN_MAKE_ALIGNED_OPERATOR_NEW
     VertexPose(){}
     VertexPose(KeyFrame* pKF){
+        // cout << "Function call inside Vertex Pose"<<endl;
         setEstimate(ImuCamPose(pKF));
-    }
+        // cout << "Successful Function call inside Vertex Pose"<<endl;
+
+    }   
     VertexPose(Frame* pF){
         setEstimate(ImuCamPose(pF));
     }

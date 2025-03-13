@@ -49,15 +49,31 @@ Camera.type: "PinHole"
 # IMU.Frequency: 200.0
 
 
-Camera1.fx: 916.5015082697165
-Camera1.fy: 915.0838428431339
-Camera1.cx: 641.8111584667326
-Camera1.cy: 356.47367070154854
+# Camera1.fx: 916.5015082697165
+# Camera1.fy: 915.0838428431339
+# Camera1.cx: 641.8111584667326
+# Camera1.cy: 356.47367070154854
+
+# Camera1.k1: 0.07809695842091514
+# Camera1.k2:  -0.14615549029696379
+# Camera1.p1: -0.0012996168394458663
+# Camera1.p2: -0.0015239186911521914
+
+Camera1.fx: 923.848388671875
+Camera1.fy: 923.85546875
+Camera1.cx: 647.532470703125
+Camera1.cy: 361.49072265625
 
 Camera1.k1: 0.07809695842091514
 Camera1.k2:  -0.14615549029696379
 Camera1.p1: -0.0012996168394458663
 Camera1.p2: -0.0015239186911521914
+
+# Camera1.k1: 0.0
+# Camera1.k2:  0.0
+# Camera1.p1: 0.0
+# Camera1.p2: 0.0
+
 
 # Camera resolution
 Camera.width: 1280
@@ -70,7 +86,7 @@ Camera.newWidth: 600
 Camera.newHeight: 338
 
 # Camera frames per second 
-Camera.fps: 8
+Camera.fps: 30
 
 # Color order of the images (0: BGR, 1: RGB. It is ignored if images are grayscale)
 Camera.RGB: 1
@@ -86,24 +102,66 @@ IMU.T_b_c1: !!opencv-matrix
    rows: 4
    cols: 4
    dt: f
-   data: [1,0,0,-0.005,
-         0,1,0,-0.005,
-         0,0,1,0.0117,
-         0.0, 0.0, 0.0, 1.0]
+   # data: [0.999906,  0.008229,  0.010973, -0.041125,
+   #     0.006108, -0.983471,  0.180964, -0.000451,
+   #     0.012281, -0.18088 , -0.983429, -0.268246,
+   #     0.      ,  0.      ,  0.      ,  1.      ]
+   data : [ 0.99990161,  0.01114873,  0.00851318, -0.03113638,
+         -0.00936627,  0.07884676,  0.99684275,  0.02483151,
+          0.01044228, -0.9968244,   0.07894342, -0.13087505,
+          0.,          0.,          0.,          1.        ]
+   # data: [1,0,0,-0.005,
+   #       0,1,0,-0.005,
+   #       0,0,1,0.0117,
+   #       0.0, 0.0, 0.0, 1.0]
+   
+
+#imu 1
+   # data : [[ 0.99990161,  0.01114873,  0.00851318, -0.03113638,
+   #       [-0.00936627,  0.07884676,  0.99684275,  0.02483151,
+   #       [ 0.01044228, -0.9968244,   0.07894342, -0.13087505,
+   #       [ 0.,          0.,          0.,          1.        ]]
+
+#imu 2
+      # data: [ 0.99990161,  0.01114873,  0.00851318, -0.03113638,
+      #  -0.00936627,  0.07884676,  0.99684275,  0.02483151,
+      #   0.01044228, -0.9968244 ,  0.07894342, -0.13087505,
+      #   0.        ,  0.        ,  0.        ,  1.        ]
 
 
+IMU.InsertKFsWhenLost: 0
 # IMU noise (Use those from VINS-mono)
-IMU.NoiseGyro: 1e-3 # 2.44e-4 #1e-3 # rad/s^0.5
-IMU.NoiseAcc: 1e-2 # 1.47e-3 #1e-2 # m/s^1.5
-IMU.GyroWalk: 1e-6 # rad/s^1.5
-IMU.AccWalk: 1e-4 # m/s^2.5
-IMU.Frequency: 200.0
+# IMU.NoiseGyro: 1e-3 # 2.44e-4 #1e-3 # rad/s^0.5
+# IMU.NoiseAcc: 1e-2 # 1.47e-3 #1e-2 # m/s^1.5
+# IMU.GyroWalk: 1e-6 # rad/s^1.5
+# IMU.AccWalk: 1e-4 # m/s^2.5
+# IMU.Frequency: 200.0
+
+#IMU1/imuv
+IMU.NoiseAcc: 0.0090815 #10e-8 #6.21e-4 0.01733 
+IMU.AccWalk:  0.00068738 #10e-8 #1.85e-5 0.003611 
+IMU.NoiseGyro:  0.00045426  #10e-8 #5e-5 0.001597
+IMU.GyroWalk:  0.00465478 #10e-8 #1.08e-6 #5.64e-04  
+IMU.Frequency: 105.0
+
+
+#IMUV (virtual IMU)
+# IMU.NoiseGyro:  2.19e-5 # 2.44e-4 #1e-3 # rad/s^0.5
+# IMU.NoiseAcc: 5.16e-4 # 1.47e-3 #1e-2 # m/s^1.5
+# IMU.GyroWalk: 1.96e-7 # rad/s^1.5
+# IMU.AccWalk: 1.29e-5 # m/s^2.5
+# IMU.NoiseGyro:  0.001597 # 2.44e-4 #1e-3 # rad/s^0.5
+# IMU.NoiseAcc: 0.017333 # 1.47e-3 #1e-2 # m/s^1.5
+# IMU.GyroWalk: 5.64e-05 # rad/s^1.5
+# IMU.AccWalk: 0.003611 # m/s^2.5
+# IMU.Frequency: 150.0
+
 #--------------------------------------------------------------------------------------------
 # ORB Parameters
 #--------------------------------------------------------------------------------------------
 
 # ORB Extractor: Number of features per image
-ORBextractor.nFeatures: 1000 # 1000
+ORBextractor.nFeatures: 1000 # 1250
 
 # ORB Extractor: Scale factor between levels in the scale pyramid 	
 ORBextractor.scaleFactor: 1.2
